@@ -1,6 +1,7 @@
 
-  # movie website
+  # Movie website
   you can search any movie's info including the latest releases.
+  
   you can add your fav movie from api to localstorage and retrive their info from local storage.
 
   # React + Vite
