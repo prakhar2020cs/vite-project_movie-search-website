@@ -8,6 +8,7 @@ import Searchbox from './components/Searchbox';
 const App = () => {
 	const [movies, setMovies] = useState([]);
 	const [Searchvalue, Setsearchvalue] = useState("");
+	const [favourites, Setfavourites] = useState(['']);
 
 	const getMovieRequest = async (Searchvalue) =>{
 		const url = `https://www.omdbapi.com/?s=${Searchvalue}&apikey=d15c8db5`;
@@ -21,6 +22,11 @@ const App = () => {
 	useEffect(()=>{
 		getMovieRequest([Searchvalue]);  // this fx is called when the page loads
 	}, [Searchvalue]);
+
+	const Addfavouritemovie = (movie) =>{
+		const Newfavouritelist = [...favourites, movie]  //copy of current array with added movie
+	    Setfavourites(Newfavouritelist);
+	}
 	return (
 		<div className='container-fluid movie-app'>
 			<div className="row d-flex align-items-center mt-4 mb-4">
@@ -28,7 +34,11 @@ const App = () => {
 				<Searchbox Searchvalue={Searchvalue} Setsearchvalue={Setsearchvalue}></Searchbox>
 			</div>
 			<div className='row'>
-				<MovieList movies={movies} />
+				<MovieList 
+				  	movies={movies} 
+				   	setfavouritemovie={Addfavouritemovie}
+				    favouritecomponent = {AddFavourites}                                 
+	            />
 				
 			</div>
 		</div>
