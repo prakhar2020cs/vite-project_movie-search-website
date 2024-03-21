@@ -5,11 +5,12 @@ import MovieList from "./components/MovieList";
 import MovieListHeading from "./components/MovieListHeading";
 import Searchbox from "./components/Searchbox";
 import Favouritecomponent from "./components/Favouritecomponent";
+import RemoveFavourite from "./components/RemoveFavourite"; 
 
 const App = () => {
   const [movies, setMovies] = useState([]);
-  const [Searchvalue, Setsearchvalue] = useState("");
-  const [favourites, Setfavourites] = useState([""]);
+  const [Searchvalue, Setsearchvalue] = useState([]);
+  const [favourites, Setfavourites] = useState(['']);
 
   const getMovieRequest = async (Searchvalue) => {
     const url = `https://www.omdbapi.com/?s=${Searchvalue}&apikey=d15c8db5`;
@@ -25,10 +26,35 @@ const App = () => {
     getMovieRequest([Searchvalue]); // this fx is called when the page loads
   }, [Searchvalue]);
 
+  useEffect(() => {
+		const movieFavourites = JSON.parse(
+			localStorage.getItem('react-movie-app-favourites')
+		);
+
+		if(movieFavourites){
+      Setfavourites(movieFavourites);
+    }
+	}, []);
+
+  const saveToLocalStorage = (items) => {
+		localStorage.setItem('react-movie-app-favourites', JSON.stringify(items));
+	};
+
   const Addfavouritemovie = (movie) => {
-    const Newfavouritelist = [...favourites, movie]; //copy of current array with added movie
-    Setfavourites(Newfavouritelist);
+    const newfavouritelist = [...favourites, movie]; //copy of current array with added movie
+    Setfavourites(newfavouritelist);
+    saveToLocalStorage(newfavouritelist);
   };
+
+  const removeFavouriteMovie = (movie) => {
+		const newFavouriteList = favourites.filter(
+			(favourite) => favourite.imdbID !== movie.imdbID
+		);
+
+		Setfavourites(newFavouriteList);
+    saveToLocalStorage(newFavouriteList);
+	};
+
   return (
     <div className="container-fluid movie-app">
       <div className="row d-flex align-items-center mt-4 mb-4">
@@ -41,8 +67,19 @@ const App = () => {
       <div className="row">
         <MovieList
           movies={movies}
-          setfavouritemovie={Addfavouritemovie}
-          Favouritecomponent={Favouritecomponent}   //passing this component as props
+         
+          Favouritecomponent={Favouritecomponent} //passing this component as props
+          handlefavclick={Addfavouritemovie} //passing function as prop to handle click on fav
+        />
+      </div>
+      <div className="row d-flex align-items-center mt-4 mb-4">
+        <MovieListHeading heading="Favourites" />
+      </div>
+      <div className="row">
+        <MovieList
+          movies={favourites}
+          Favouritecomponent={RemoveFavourite}
+          handlefavclick ={removeFavouriteMovie}
         />
       </div>
     </div>
