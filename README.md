@@ -1,8 +1,9 @@
 
   # API based Movie website
-  you can search any movie's info, including the latest releases .
   
-  you can add your fav movie from api to localstorage and then retrieve their info from local storage.
+  You can search any movie, including the latest releases .
+  
+  You can add your fav movie and remove them.
 
   # React + Vite
 
