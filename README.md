@@ -1,6 +1,6 @@
 # Movie App
 
-This movie app was built using ReactJS. It allows users to search for movies and retrieve data from an API. Users can select a movie, mark it as a favorite, and manage their favorite movies list.
+I created movie app using ReactJS. It allows users to search for movies and retrieve data from an API. Users can select a movie, mark it as a favorite, and manage their favorite movies list.
 
 ## Features
 
